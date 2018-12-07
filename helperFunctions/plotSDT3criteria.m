@@ -1,4 +1,4 @@
-function plotSDT3criteria(dprime, c_RNL, subplot_num)
+function plotSDT3criteria(dprime, c_12N, subplot_num)
 
 % Basic parameters
 yLimits = [-4.5, 4.5];
@@ -13,38 +13,32 @@ for distrib=1:length(mus)
     gauss(distrib,:) = normpdf(range, mus(distrib), sigma);
 end
 
-% Plot criteria and extra lines
-subplot(3,2,subplot_num)
-plot([c_RNL(1),c_RNL(1)], [0 .5], 'b', 'Linewidth', 3)
-hold
-plot([c_RNL(2),c_RNL(2)], [0 .5], 'k', 'Linewidth', 3)
-plot([c_RNL(3),c_RNL(3)], [0 .5], 'r', 'Linewidth', 3)
-legend('right cue', 'neutral cue', 'left cue')
-
 % Plot Gaussians
-plot(range, gauss(1,:), 'k');
-plot(range, gauss(2,:), 'k');
+subplot(1,2,subplot_num)
+plot(range, gauss(1,:), 'color', [.5,.5,.5], 'Linewidth', 2); %gray
+hold
+plot(range, gauss(2,:), 'k', 'Linewidth', 2);
 
-% Replot the criteria so that they are on top of the Gaussians
-plot([c_RNL(1),c_RNL(1)], [0 .5], 'b', 'Linewidth', 3)
-plot([c_RNL(2),c_RNL(2)], [0 .5], 'k', 'Linewidth', 3)
-plot([c_RNL(3),c_RNL(3)], [0 .5], 'r', 'Linewidth', 3)
-plot([0,0], xLimits, 'k--', 'Linewidth', 1)
+% Plot criteria and extra lines
+plot([c_12N(1),c_12N(1)], [0 .5], 'b', 'Linewidth', 3)
+plot([c_12N(2),c_12N(2)], [0 .5], 'r', 'Linewidth', 3)
+plot([mean(c_12N(1:2)),mean(c_12N(1:2))], [0 .5], 'm', 'Linewidth', 3)
+plot([c_12N(3),c_12N(3)], [0 .5], 'color', [0,176/255,80/255], 'Linewidth', 3) %green
+plot([0,0], [0 .5], 'k', 'Linewidth', 3)
 
 % Remove line for y axis
 plot([yLimits(1),yLimits(1)], xLimits, 'w-', 'Linewidth', 3)
 
 % Figure details
 xlim(yLimits);
+xlabel('Evidence');
 ylim(xLimits);
 set(gca,'YTick',[])
 
 % Add textbox with information about criteria
-yloc = [.9, .9, .6, .6, .3, .3];
 annotation('textbox',...
-    [rem(subplot_num-1,2)/2, yloc(subplot_num), .1, .1],...
-    'String',{['shift_{right} = ' num2str(round(100*(c_RNL(2)-c_RNL(1)))/100)],...
-    ['shift_{left} = ' num2str(round(100*(c_RNL(3)-c_RNL(2)))/100)],...
-    ['\Delta_{shift} = ' num2str(round(100*(c_RNL(2)-c_RNL(1)))/100-round(100*(c_RNL(3)-c_RNL(2)))/100)]},...
-    'FontSize',12,...
-    'LineStyle','none');
+    [rem(subplot_num-1,2)/2, .9, .1, .1],...
+    'String',{['c_{neutral} = ' num2str(round(100*c_12N(3))/100)],...
+    ['c_{PredMid} = ' num2str(round(100*(c_12N(1)+c_12N(2))/2)/100)],...
+    'c_{NoBias} = 0'},...
+    'FontSize',12);
