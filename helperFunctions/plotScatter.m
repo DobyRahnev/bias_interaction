@@ -3,10 +3,10 @@ function plotScatter(Y, X, expt_filter, xlimits, xlabel_text, ylabel_text, dash_
 figure
 
 % Plot the different markers
-plot(Y(expt_filter==1) ,X(expt_filter==1), 'r.', 'MarkerSize',30);
+plot(X(expt_filter==1), Y(expt_filter==1), 'r.', 'MarkerSize',30);
 hold
-plot(Y(expt_filter==2) ,X(expt_filter==2), 'b.', 'MarkerSize',30);
-plot(Y(expt_filter==3) ,X(expt_filter==3), 'g.', 'MarkerSize',30);
+plot(X(expt_filter==2), Y(expt_filter==2), 'b.', 'MarkerSize',30);
+plot(X(expt_filter==3), Y(expt_filter==3), 'g.', 'MarkerSize',30);
 
 % Add label information
 xlabel(xlabel_text);
